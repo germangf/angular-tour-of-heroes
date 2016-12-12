@@ -9,18 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+require('rxjs/add/operator/switchMap');
 var hero_1 = require('./hero');
 var HeroDetailComponent = (function () {
     function HeroDetailComponent() {
     }
+    HeroDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params
+            .switchMap(function (params) { return _this.heroService.getHero(+params['id']); })
+            .subscribe(function (hero) { return _this.hero = hero; });
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', hero_1.Hero)
     ], HeroDetailComponent.prototype, "hero", void 0);
     HeroDetailComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'my-hero-detail',
-            template: "\n  \t<div *ngIf=\"hero\">\n\t  \t<h2>{{hero.name}} details!</h2>\n\t  \t<div><label>id: </label>{{hero.id}}</div>\n\t  \t<div>\n\t  \t\t<label>name: </label>\n\t\t    <input [(ngModel)]=\"hero.name\" placeholder=\"name\">\n\t  \t</div>\n  \t</div>\n  ",
+            templateUrl: 'hero-detail.component.html',
         }), 
         __metadata('design:paramtypes', [])
     ], HeroDetailComponent);
